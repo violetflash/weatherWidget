@@ -1,0 +1,24 @@
+.Initial {
+  font-family: Abel, sans-serif;
+}
+
+.Label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Button {
+  //background-image: url(./src/logo.svg);
+  background-color: #fff;
+  border: none;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.Input {
+  padding: 5px 10px;
+}
+
