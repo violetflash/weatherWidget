@@ -3,6 +3,7 @@ import useFetch from "../Hooks/useFetch/useFetch";
 import Loader from "../Loader/Loader";
 import nodata from '../../icons/nodata.png';
 import classes from './WeatherItem.module.scss';
+import {capitalizer, getTemp} from '../utils/Functions';
 
 const WeatherItem = ({id}) => {
 
@@ -10,7 +11,8 @@ const WeatherItem = ({id}) => {
     const data = res.response;
     console.log(data);
     console.log(id);
-    const getTemp = () => {}
+
+
 
     const img = res.response ? `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png` : nodata;
     return (
@@ -24,7 +26,14 @@ const WeatherItem = ({id}) => {
                     </figcaption>
                 </figure>
                 <div className={classes.Weather__body}>
+                    <span className={classes.Weather__feel}>
+                        Feels like {getTemp(data.main.feels_like)}.{` `}
+                        {data.weather[0].main}.{` `}
+                        {capitalizer(data.weather[0].description)}
+                    </span>
+                    <div className={classes.Weather__details}>
 
+                    </div>
                 </div>
 
             </article> :
