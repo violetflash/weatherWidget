@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import classes from './InitialLoc.module.scss';
+import classes from './AddLocation.module.scss';
 import styled from 'styled-components';
 import icon from '../../icons/enter.svg';
 import Context from '../utils/Context';
@@ -21,11 +21,11 @@ const Button = styled.button`
   transition: all 0.3s ease;
 `;
 
-const InitialLoc = props => {
+const AddLocation = props => {
 
     const {
 
-        lsState: {setStoredValue},
+        lsState: { storedValue, setStoredValue },
         fdb,
         searchDropdownState: {dropdownList, setDropdownList},
         searchState: {inputValue, setInputValue},
@@ -55,8 +55,13 @@ const InitialLoc = props => {
 
     const btnHandler = (e) => {
         e.preventDefault();
-        setStoredValue(cityID);
-        localStorage.setItem('city', JSON.stringify(cityID));
+        console.log(cityID);
+        const newStoredValue = [...storedValue];
+        console.log('newStoredValue', newStoredValue);
+        newStoredValue.push(cityID);
+        setStoredValue(newStoredValue);
+        console.log(storedValue);
+        localStorage.setItem('city', JSON.stringify(storedValue));
     };
 
     const dropdownBtnHandler = (e) => {
@@ -69,7 +74,7 @@ const InitialLoc = props => {
     return (
         <>
             {fdb ? <span className={classes.Initial}>
-                Add your location here:
+                Add location:
                 <form className={classes.Form}>
                     <div className={classes.Wrapper}>
                         <input
@@ -79,15 +84,17 @@ const InitialLoc = props => {
                             value={inputValue}
                         />
                         <ul className={classes.Dropdown}>
-                            {dropdownList.length < 30 && dropdownList.sort().map((item, index) => {
+                            {dropdownList.length < 100 && dropdownList.map((item, index) => {
                                 return (
                                     <li
                                         className={classes.Dropdown__item}
                                         key={item.id}
-                                        onClick={dropdownBtnHandler}
-                                        data-id={item.id}
                                     >
-                                        <button className={classes.Dropdown__btn}>
+                                        <button
+                                            className={classes.Dropdown__btn}
+                                            onClick={dropdownBtnHandler}
+                                            data-id={item.id}
+                                        >
                                             {item.city}, {item.country}
                                         </button>
                                     </li>
@@ -107,4 +114,4 @@ const InitialLoc = props => {
 
 };
 
-export default InitialLoc;
+export default AddLocation;

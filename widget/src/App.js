@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import classes from './App.module.scss';
-import InitialLoc from "./Components/InitialLoc/InitialLoc";
+import AddLocation from "./Components/AddLocation/AddLocation";
 import UseLocalStorage from './Components/Hooks/useLocalStorage/useLocalStorage';
 import Context from '../src/Components/utils/Context';
 import Weather from "./Components/Weather/Weather";
@@ -28,12 +28,12 @@ firebase.initializeApp(firebaseConfig);
 const App = props => {
 
     const fdb = useFDB(firebase.database());
-    const lsState = UseLocalStorage('city', null);
+    const lsState = UseLocalStorage('city', []);
     const searchDropdownState = useSearchDropdown();
     const searchState = useSearchInputValue();
     const cityIDState = UseCityId();
 
-    const firstOpened = !lsState.storedValue ? <InitialLoc /> : null;
+    // const firstOpened = !lsState.storedValue.length ? <AddLocation /> : null;
 
     return (
         <Context.Provider value={{
@@ -44,8 +44,9 @@ const App = props => {
             cityIDState
         }}>
             <article className={classes.Widget}>
-                {firstOpened}
-                {lsState.storedValue && <Weather />}
+                {/*{firstOpened}*/}
+                <AddLocation />
+                {lsState.storedValue.length > 0 && <Weather />}
             </article>
         </Context.Provider>
 

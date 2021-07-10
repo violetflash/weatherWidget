@@ -1,0 +1,31 @@
+.Weather {
+  margin-bottom: 25px;
+  text-align: left;
+  padding: 0 15px;
+
+  &__city {
+    //margin-top: 10px;
+    font-weight: 700;
+
+    span {
+      font-weight: 400;
+    }
+  }
+
+  &__main {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    //justify-content: center;
+
+  }
+
+  &__temp {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &__degSymb {
+    font-size: 26px;
+  }
+}
