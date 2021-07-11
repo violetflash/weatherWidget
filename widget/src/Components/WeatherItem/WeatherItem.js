@@ -24,8 +24,6 @@ const WeatherItem = ({ id, lat, lon }) => {
     const detailsRes = useFetch(id, lat, lon);
     const detailsData = detailsRes.response;
 
-    console.log(detailsData);
-
     const img = currRes.response ? `https://openweathermap.org/img/wn/${currData.weather[0].icon}@2x.png` : nodata;
 
     return (
