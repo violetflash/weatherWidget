@@ -29,7 +29,8 @@ const AddLocation = props => {
         fdb,
         searchDropdownState: {dropdownList, setDropdownList},
         searchState: {inputValue, setInputValue},
-        cityIDState: {cityID, setCityID}
+        cityIDState: {cityID, setCityID},
+        openSettingsState: { setOpenSettings }
 
     } = useContext(Context);
 
@@ -64,19 +65,20 @@ const AddLocation = props => {
         setStoredValue(newStoredValue);
         localStorage.setItem('city', JSON.stringify(storedValue));
         setCityID(null);
+        setOpenSettings(null);
     };
 
     const dropdownBtnHandler = (e) => {
         e.preventDefault();
         const target = e.target.closest(`.${classes.Dropdown__item}`).querySelector('button');
-        setCityID({city: target.innerText, id: target.dataset.id, lat: target.dataset.lat, lon: target.dataset.lon});
+        setCityID({name: target.innerText, id: target.dataset.id, lat: target.dataset.lat, lon: target.dataset.lon});
         setInputValue(target.innerText);
         setDropdownList([]);
     };
 
     return (
         <>
-            {fdb ? <span className={classes.Initial}>
+            {fdb ? <section className={classes.Search}>
                 Add location:
                 <form className={classes.Form}>
                     <div className={classes.Wrapper}>
@@ -111,7 +113,7 @@ const AddLocation = props => {
                     </div>
                     <Button className={classes.Button} onClick={btnHandler} disabled={!cityID}/>
                 </form>
-            </span> :
+            </section> :
                 <Loader/>
             }
         </>

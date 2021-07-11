@@ -9,7 +9,6 @@ import {capitalizer, getTemp, windDegToText } from '../utils/Functions';
 import styled from 'styled-components';
 
 const WindIcon = styled.img`
-  margin-right: 3px;
   width: 15px;
   height: 15px;
   border: none;
@@ -25,6 +24,8 @@ const WeatherItem = ({ id, lat, lon }) => {
     const detailsRes = useFetch(id, lat, lon);
     const detailsData = detailsRes.response;
 
+    console.log(detailsData);
+
     const img = currRes.response ? `https://openweathermap.org/img/wn/${currData.weather[0].icon}@2x.png` : nodata;
 
     return (
@@ -32,12 +33,13 @@ const WeatherItem = ({ id, lat, lon }) => {
             <article className={classes.Weather}>
                 <header className={classes.Weather__city}>{currData.name}, <span>[{currData.sys.country}]</span></header>
                 <figure className={classes.Weather__main}>
-                    <img className="1" src={img} alt=""/>
+                    <img className={classes.Weather__img} src={img} alt="weather status"/>
                     <figcaption className={classes.Weather__temp}>
                         {Math.trunc(currData.main.temp - 273)}<span className={classes.Weather__degSymb}>°</span>С
                     </figcaption>
                 </figure>
                 <div className={classes.Weather__body}>
+                    {/*<div className={classes.Weather__time}>{utcToLocale(currData.dt)}</div>*/}
                     <span className={classes.Weather__feel}>
                         Feels like {getTemp(currData.main.feels_like)}.{` `}
                         {capitalizer(currData.weather[0].description)}
@@ -46,7 +48,7 @@ const WeatherItem = ({ id, lat, lon }) => {
                         <li className={classes.Weather__line}>
                             <div className={classes.Weather__info}>
                                 <WindIcon deg={currData.wind.deg} src={wind} alt="wind direction"/> {` `}
-                                {currData.wind.speed}m/s {` `}
+                                <span className={classes.Weather__windSpeed}>{currData.wind.speed}m/s</span>
                                 {windDegToText(currData.wind.deg)}
                             </div>
                         </li>

@@ -1,7 +1,46 @@
 .Settings {
   position: relative;
-  padding: 20px 0;
   width: 100%;
-  height: 100px;
   background-color: inherit;
+
+  &__title {
+    margin: 0 0 20px;
+    text-align: left;
+  }
+
+  &__city {
+    display: flex;
+    margin-bottom: 30px;
+    align-items: center;
+    padding: 5px 5px 5px 10px;
+    width: 100%;
+    background-color: #d2d2d2;
+
+  }
+
+  &__burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+
+    span {
+      width: 20px;
+      height: 2px;
+      background-color: #000;
+      margin-bottom: 4px;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  &__cityName {
+    padding: 0 15px;
+    max-width: calc(100% - 18px);
+    flex-grow: 1;
+    text-align: left;
+  }
 }

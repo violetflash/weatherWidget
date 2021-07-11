@@ -36,8 +36,8 @@ const App = () => {
     const cityIDState = UseCityId();
     const openSettingsState = UseOpenSettings();
 
-    // const firstOpened = !lsState.storedValue.length ? <AddLocation /> : null;
-    const settings = openSettingsState.openSettings ? <Settings /> : null;
+    const firstOpened = !lsState.storedValue.length ? <AddLocation /> : null;
+    const settings = openSettingsState.openSettings && lsState.storedValue.length > 0 ? <Settings /> : null;
     const weather = !openSettingsState.openSettings && lsState.storedValue.length > 0 ? <Weather /> : null;
 
     return (
@@ -50,8 +50,7 @@ const App = () => {
             openSettingsState
         }}>
             <article className={classes.Widget}>
-                {/*{firstOpened}*/}
-                <AddLocation />
+                {firstOpened}
                 {weather}
                 {settings}
             </article>

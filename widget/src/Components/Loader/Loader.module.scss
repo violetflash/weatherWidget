@@ -1,4 +1,5 @@
 .Loader {
+  position: relative;
   width: 175px;
   height: 80px;
   display: flex;
@@ -10,14 +11,13 @@
   background-size: 50px 50px, 100px 76px, 50px 50px, 120px 40px;
   background-position: 0px 30px, 37px 0px, 122px 30px, 25px 40px;
   background-repeat: no-repeat;
-  position: relative;
   box-sizing: border-box;
 
   &::after {
     content: '';
     //left: 0;
     //right: 0;
-    bottom: 20px;
+    bottom: 30px;
     position: absolute;
     width: 36px;
     height: 36px;
@@ -26,6 +26,40 @@
     border-color: #FF3D00 transparent;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
+  }
+
+  &__text {
+    position: absolute;
+    top: 65%;
+    left: 0;
+    right: 0;
+    width: 4rem;
+    margin: auto;
+
+    &:after {
+      content: "Loading";
+      font-size: 14px;
+      font-weight: 700;
+      animation: loading-text 3s infinite;
+    }
+
+    @keyframes loading-text {
+      0% {
+        content: "Loading"
+      }
+
+      25% {
+        content: "Loading."
+      }
+
+      50% {
+        content: "Loading.."
+      }
+
+      75% {
+        content: "Loading..."
+      }
+    }
   }
 }
 
@@ -38,3 +72,4 @@
     transform: rotate(360deg);
   }
 }
+

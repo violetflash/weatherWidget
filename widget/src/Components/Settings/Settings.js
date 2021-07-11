@@ -3,9 +3,11 @@ import classes from './Settings.module.scss';
 import styled from 'styled-components';
 import close from '../../icons/close.svg';
 import Context from "../utils/Context";
+import AddLocation from "../AddLocation/AddLocation";
+import trash from '../../icons/trash.svg';
 
 
-const Button = styled.button`
+const CloseButton = styled.button`
   position: absolute;
   width: 16px;
   height: 16px;
@@ -16,25 +18,61 @@ const Button = styled.button`
   background-size: contain;
   border: none;
   cursor: pointer;
-  transform: rotate(0);
+  transform: translateY(25%) rotate(0) ;
   transition: all 0.3s ease;
   
   &:hover {
-    transform: rotate(-90deg);
+    transform: translateY(25%) rotate(-90deg) ;
   }
+`;
+
+const DeleteButton = styled.button`
+  width: 18px;
+  height: 18px;
+  border: none;
+  background-color: inherit;
+  background-image:url(${trash});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
 `;
 
 
 const Settings = props => {
-    const { openSettingsState: { setOpenSettings } } = useContext(Context);
+    const {
+        openSettingsState: { setOpenSettings },
+        lsState: { storedValue, setStoredValue }
+    } = useContext(Context);
 
     const closeHandler = () => {
         setOpenSettings(null);
     };
 
+    const deleteCity = (index) => {
+        const newStoredValue = [...storedValue];
+        newStoredValue.splice(index, 1);
+        setStoredValue(newStoredValue);
+    };
+
     return (
         <section className={classes.Settings}>
-            <Button onClick={closeHandler}/>
+            <CloseButton onClick={closeHandler}/>
+            <h4 className={classes.Settings__title}>Settings</h4>
+            {storedValue.map((city, index) => {
+                return (
+                    <div className={classes.Settings__city} key={city.id}>
+                        <div className={classes.Settings__burger}>
+                            <span />
+                            <span />
+                            <span />
+                        </div>
+                        <div className={classes.Settings__cityName}>{city.name}</div>
+                        <DeleteButton onClick={() => deleteCity(index)}/>
+                    </div>
+                )
+            })}
+            <AddLocation />
         </section>
     )
 

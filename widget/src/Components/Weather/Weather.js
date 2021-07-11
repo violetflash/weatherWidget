@@ -18,12 +18,12 @@ const Button = styled.button`
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
-  transform: rotate(0);
+  transform: translateY(25%) rotate(0);
   transition: all 0.3s ease;
 
 
   &:hover {
-    transform: rotate(-90deg);
+    transform: translateY(25%) rotate(-90deg);
   }
 `;
 
@@ -36,7 +36,6 @@ const Weather = props => {
 
     const settingsHandler = () => {
         setOpenSettings(true);
-        console.log(storedValue);
     };
 
     return (

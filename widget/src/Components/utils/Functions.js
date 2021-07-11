@@ -5,6 +5,11 @@ const capitalizer = (str) => {
     return str[0].toUpperCase() + str.slice(1);
 };
 
+function utcToLocale(epoch) {
+    return new Date(epoch * 1000).toLocaleString();
+}
+
+
 const windDegToText = deg => {
     if (deg > 348.75) return 'N';
     if (deg > 326.25) return 'NNW';
@@ -24,4 +29,4 @@ const windDegToText = deg => {
     if (deg > 11.25) return 'NNE';
 }
 
-export { getTemp, capitalizer, windDegToText };
+export { getTemp, capitalizer, windDegToText, utcToLocale };
