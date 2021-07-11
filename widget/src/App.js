@@ -10,6 +10,8 @@ import useFDB from "./Components/Hooks/useFDB/useFDB";
 import useSearchDropdown from "./Components/Hooks/useSearchDropdown/useSearchDropdown";
 import useSearchInputValue from './Components/Hooks/useSearchInputValue/useSearchInputValue';
 import UseCityId from "./Components/Hooks/useCityID/useCityID";
+import UseOpenSettings from "./Components/Hooks/useOpenSettings/useOpenSettings";
+import Settings from "./Components/Settings/Settings";
 
 
 
@@ -25,15 +27,18 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const App = props => {
+const App = () => {
 
     const fdb = useFDB(firebase.database());
     const lsState = UseLocalStorage('city', []);
     const searchDropdownState = useSearchDropdown();
     const searchState = useSearchInputValue();
     const cityIDState = UseCityId();
+    const openSettingsState = UseOpenSettings();
 
     // const firstOpened = !lsState.storedValue.length ? <AddLocation /> : null;
+    const settings = openSettingsState.openSettings ? <Settings /> : null;
+    const weather = !openSettingsState.openSettings && lsState.storedValue.length > 0 ? <Weather /> : null;
 
     return (
         <Context.Provider value={{
@@ -41,12 +46,14 @@ const App = props => {
             fdb,
             searchDropdownState,
             searchState,
-            cityIDState
+            cityIDState,
+            openSettingsState
         }}>
             <article className={classes.Widget}>
                 {/*{firstOpened}*/}
                 <AddLocation />
-                {lsState.storedValue.length > 0 && <Weather />}
+                {weather}
+                {settings}
             </article>
         </Context.Provider>
 

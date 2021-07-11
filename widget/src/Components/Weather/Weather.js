@@ -5,6 +5,7 @@ import WeatherItem from "../WeatherItem/WeatherItem";
 import classes from './Weather.module.scss';
 import gear from './../../icons/settings.svg';
 
+
 const Button = styled.button`
   position: absolute;
   padding: 0;
@@ -28,13 +29,20 @@ const Button = styled.button`
 
 const Weather = props => {
     const {
-        lsState: { storedValue }
+        lsState: { storedValue },
+        openSettingsState: { setOpenSettings }
     } = useContext(Context);
+
+
+    const settingsHandler = () => {
+        setOpenSettings(true);
+        console.log(storedValue);
+    };
 
     return (
         <section className={classes.Weather}>
-            <Button />
-            {storedValue.map(id => <WeatherItem key={id} id={id}/>)}
+            <Button onClick={settingsHandler}/>
+            {storedValue.map(city => <WeatherItem key={city.id} {...city}/>)}
         </section>
     )
 

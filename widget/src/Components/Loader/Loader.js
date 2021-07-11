@@ -5,7 +5,7 @@ const Loader = () => {
     return (
         <>
             <span className={classes.Loader}/>
-            <p>Loading cities...</p>
+            <p>Loading...</p>
         </>
     )
 

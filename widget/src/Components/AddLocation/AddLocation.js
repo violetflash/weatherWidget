@@ -42,8 +42,7 @@ const AddLocation = props => {
             if (fdb) {
                 fdb.forEach(elem => {
                     if (regExp.test(elem.name.toLowerCase())) {
-
-                        dropdown.push({city: elem.name, id: elem.id, country: elem.country});
+                        dropdown.push({city: elem.name, id: elem.id, country: elem.country, lat: elem.coord.lat, lon: elem.coord.lon});
                         setDropdownList(dropdown);
                     }
                 });
@@ -55,19 +54,23 @@ const AddLocation = props => {
 
     const btnHandler = (e) => {
         e.preventDefault();
-        console.log(cityID);
+        setInputValue('');
         const newStoredValue = [...storedValue];
-        console.log('newStoredValue', newStoredValue);
+        const double = newStoredValue.findIndex(elem => elem.id === cityID.id);
+
+        if (double >= 0) return;
+
         newStoredValue.push(cityID);
         setStoredValue(newStoredValue);
-        console.log(storedValue);
         localStorage.setItem('city', JSON.stringify(storedValue));
+        setCityID(null);
     };
 
     const dropdownBtnHandler = (e) => {
         e.preventDefault();
-        setCityID(e.target.dataset.id);
-        setInputValue(e.target.innerText);
+        const target = e.target.closest(`.${classes.Dropdown__item}`).querySelector('button');
+        setCityID({city: target.innerText, id: target.dataset.id, lat: target.dataset.lat, lon: target.dataset.lon});
+        setInputValue(target.innerText);
         setDropdownList([]);
     };
 
@@ -89,11 +92,13 @@ const AddLocation = props => {
                                     <li
                                         className={classes.Dropdown__item}
                                         key={item.id}
+                                        onClick={dropdownBtnHandler}
                                     >
                                         <button
                                             className={classes.Dropdown__btn}
-                                            onClick={dropdownBtnHandler}
                                             data-id={item.id}
+                                            data-lat={item.lat}
+                                            data-lon={item.lon}
                                         >
                                             {item.city}, {item.country}
                                         </button>
@@ -104,7 +109,7 @@ const AddLocation = props => {
 
                         </ul>
                     </div>
-                    <Button className={classes.Button} onClick={btnHandler}/>
+                    <Button className={classes.Button} onClick={btnHandler} disabled={!cityID}/>
                 </form>
             </span> :
                 <Loader/>

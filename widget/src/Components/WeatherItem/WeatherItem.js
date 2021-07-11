@@ -2,38 +2,81 @@ import React from 'react';
 import useFetch from "../Hooks/useFetch/useFetch";
 import Loader from "../Loader/Loader";
 import nodata from '../../icons/nodata.png';
+import wind from '../../icons/wind.svg';
+import pressure from '../../icons/pressure.svg';
 import classes from './WeatherItem.module.scss';
-import {capitalizer, getTemp} from '../utils/Functions';
+import {capitalizer, getTemp, windDegToText } from '../utils/Functions';
+import styled from 'styled-components';
 
-const WeatherItem = ({id}) => {
+const WindIcon = styled.img`
+  margin-right: 3px;
+  width: 15px;
+  height: 15px;
+  border: none;
+  transform: rotate(${props => props.deg}deg);
+  
+`;
 
-    const res = useFetch(id);
-    const data = res.response;
-    console.log(data);
-    console.log(id);
+const WeatherItem = ({ id, lat, lon }) => {
 
+    //Auto-update???
+    const currRes = useFetch(id, lat, lon, 'curr');
+    const currData = currRes.response;
+    const detailsRes = useFetch(id, lat, lon);
+    const detailsData = detailsRes.response;
 
+    const img = currRes.response ? `https://openweathermap.org/img/wn/${currData.weather[0].icon}@2x.png` : nodata;
 
-    const img = res.response ? `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png` : nodata;
     return (
-        <>{res.response ?
+        <>{currRes.response && detailsRes.response ?
             <article className={classes.Weather}>
-                <header className={classes.Weather__city}>{data.name}, <span>{data.sys.country}</span></header>
+                <header className={classes.Weather__city}>{currData.name}, <span>[{currData.sys.country}]</span></header>
                 <figure className={classes.Weather__main}>
                     <img className="1" src={img} alt=""/>
                     <figcaption className={classes.Weather__temp}>
-                        {Math.trunc(data.main.temp - 273)}<span className={classes.Weather__degSymb}>°</span>С
+                        {Math.trunc(currData.main.temp - 273)}<span className={classes.Weather__degSymb}>°</span>С
                     </figcaption>
                 </figure>
                 <div className={classes.Weather__body}>
                     <span className={classes.Weather__feel}>
-                        Feels like {getTemp(data.main.feels_like)}.{` `}
-                        {data.weather[0].main}.{` `}
-                        {capitalizer(data.weather[0].description)}
+                        Feels like {getTemp(currData.main.feels_like)}.{` `}
+                        {capitalizer(currData.weather[0].description)}
                     </span>
-                    <div className={classes.Weather__details}>
-
-                    </div>
+                    <ul className={classes.Weather__details}>
+                        <li className={classes.Weather__line}>
+                            <div className={classes.Weather__info}>
+                                <WindIcon deg={currData.wind.deg} src={wind} alt="wind direction"/> {` `}
+                                {currData.wind.speed}m/s {` `}
+                                {windDegToText(currData.wind.deg)}
+                            </div>
+                        </li>
+                        <li className={classes.Weather__line}>
+                            <div>
+                                <img className={classes.Weather__pressureIcon} src={pressure} alt="pressure"/>
+                                {currData.main.pressure}hPa
+                            </div>
+                        </li>
+                        <li className={classes.Weather__line}>
+                            <div>
+                                Humidity: {currData.main.humidity}%
+                            </div>
+                        </li>
+                        <li className={classes.Weather__line}>
+                            <div>
+                                UV {Math.trunc(detailsData.current.uvi)}%
+                            </div>
+                        </li>
+                        <li className={classes.Weather__line}>
+                            <div>
+                                Dew point: {getTemp(detailsData.current.dew_point)}
+                            </div>
+                        </li>
+                        <li className={classes.Weather__line}>
+                            <div>
+                                Visibility {(detailsData.current.visibility / 1000).toFixed(1)}km
+                            </div>
+                        </li>
+                    </ul>
                 </div>
 
             </article> :

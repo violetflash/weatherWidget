@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 
-const useFetch = (id) => {
+const useFetch = (id, lat, lon, type) => {
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const APIkey = 'e9bc19a6f7701bfb42833e22b1a7521a';
-        const query = `//api.openweathermap.org/data/2.5/weather?id=${id}&appid=${APIkey}`;
+        const currentQuery = `//api.openweathermap.org/data/2.5/weather?id=${id}&appid=${APIkey}`;
+        const details = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=daily&appid=${APIkey}`;
+        const query = type ? currentQuery : details;
 
-        console.log(query);
         const fetchData = async() => {
             try {
                 const db = await fetch(query);
@@ -19,7 +20,7 @@ const useFetch = (id) => {
             }
         }
         fetchData();
-    }, [id]);
+    }, [id, lat, lon, type]);
 
     return { response, error };
 };
