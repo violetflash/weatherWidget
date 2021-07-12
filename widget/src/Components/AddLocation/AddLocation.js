@@ -71,7 +71,13 @@ const AddLocation = props => {
     const dropdownBtnHandler = (e) => {
         e.preventDefault();
         const target = e.target.closest(`.${classes.Dropdown__item}`).querySelector('button');
-        setCityID({name: target.innerText, id: target.dataset.id, lat: target.dataset.lat, lon: target.dataset.lon});
+        setCityID({
+            name: target.innerText,
+            id: target.dataset.id,
+            lat: target.dataset.lat,
+            lon: target.dataset.lon,
+            order: storedValue.length
+        });
         setInputValue(target.innerText);
         setDropdownList([]);
     };

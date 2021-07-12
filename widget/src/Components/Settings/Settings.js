@@ -56,15 +56,16 @@ const Settings = props => {
         setStoredValue(newStoredValue);
     };
 
-    const [currentDrag, setCurrentDrag] = useState(null);
+    const [currentCity, setCurrentCity] = useState(null);
 
     const burgerDragStartHandler = () => {
         setBurgerDrag(true);
     };
 
     function dragStartHandler(e, card) {
-        console.log('drag', card);
-        setCurrentDrag(card);
+        setCurrentCity(card);
+        console.log(currentCity);
+        // console.log(storedValue);
     }
 
     function dragLeaveHandler(e) {
@@ -86,15 +87,34 @@ const Settings = props => {
     }
 
     function dragDropHandler(e, card) {
-        console.log('drop', card)
         e.preventDefault();
+        setStoredValue(storedValue.map((item) => {
+            if (item.id === card.id) {
+                return {...item, order: currentCity.order}
+            }
+
+            if (item.id === currentCity.id) {
+                return {...item, order: card.order}
+            }
+
+            return item;
+        }));
+
+
+        // console.log(storedValue);
     }
+
+    const sortCards = (a, b) => {
+        if (a.order > b.order) {
+            return 1;
+        } else return -1;
+    };
 
     return (
         <section className={classes.Settings}>
             <CloseButton onClick={closeHandler}/>
             <h4 className={classes.Settings__title}>Settings</h4>
-            {storedValue.map((city, index) => {
+            {storedValue.sort(sortCards).map((city, index) => {
                 return (
                     <div className={classes.Settings__city}
                          key={city.id}
