@@ -61,7 +61,7 @@ const Settings = props => {
             <h4 className={classes.Settings__title}>Settings</h4>
             {storedValue.map((city, index) => {
                 return (
-                    <div className={classes.Settings__city} key={city.id}>
+                    <div className={classes.Settings__city} key={city.id} draggable="true">
                         <div className={classes.Settings__burger}>
                             <span />
                             <span />
