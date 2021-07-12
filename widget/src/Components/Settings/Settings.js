@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import classes from './Settings.module.scss';
 import styled from 'styled-components';
 import close from '../../icons/close.svg';
+import burger from '../../icons/menu.svg';
 import Context from "../utils/Context";
 import AddLocation from "../AddLocation/AddLocation";
 import trash from '../../icons/trash.svg';
@@ -38,6 +39,16 @@ const DeleteButton = styled.button`
   cursor: pointer;
 `;
 
+const Burger = styled.div`
+  width: 16px;
+  height: 16px;
+  background-color: inherit;
+  background-image: url(${burger});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+`;
+
 
 const Settings = props => {
     const {
@@ -69,20 +80,20 @@ const Settings = props => {
     }
 
     function dragLeaveHandler(e) {
-        e.target.closest(`.${classes.Settings__city}`).style.backgroundColor = '#d2d2d2';
+        // e.target.closest(`.${classes.Settings__city}`).classList.remove(`${classes.active}`);
 
     }
 
     function dragEndHandler(e) {
         setBurgerDrag(null);
-        e.target.closest(`.${classes.Settings__city}`).style.backgroundColor = '#d2d2d2';
+        e.target.closest(`.${classes.Settings__city}`).classList.remove(`${classes.active}`);
         // e.target.style.borderStyle = 'solid';
 
     }
 
     function dragOverHandler(e) {
         e.preventDefault();
-        e.target.closest(`.${classes.Settings__city}`).style.backgroundColor = 'gray';
+        e.target.closest(`.${classes.Settings__city}`).classList.add(`${classes.active}`);
         // e.target.style.borderStyle = 'dashed';
     }
 
@@ -99,6 +110,8 @@ const Settings = props => {
 
             return item;
         }));
+        e.target.closest(`.${classes.Settings__city}`).classList.add(`${classes.active}`);
+
 
 
         // console.log(storedValue);
@@ -125,13 +138,7 @@ const Settings = props => {
                          onDragOver={(e) => dragOverHandler(e)}
                          onDrop={(e) => dragDropHandler(e, city)}
                     >
-                        <div className={classes.Settings__burger}
-                             onMouseDown={burgerDragStartHandler}
-                        >
-                            <span/>
-                            <span/>
-                            <span/>
-                        </div>
+                        <Burger className={classes.Settings__burger} onMouseDown={burgerDragStartHandler} />
                         <div className={classes.Settings__cityName}>{city.name}</div>
                         <DeleteButton onClick={() => deleteCity(index)}/>
                     </div>
