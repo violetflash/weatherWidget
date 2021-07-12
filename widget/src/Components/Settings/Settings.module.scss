@@ -15,6 +15,7 @@
     padding: 5px 5px 5px 10px;
     width: 100%;
     background-color: #d2d2d2;
+    border: 1px solid black;
 
   }
 
@@ -23,7 +24,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    cursor: pointer;
+    background-color: inherit;
+    cursor: grab;
 
     span {
       width: 20px;
@@ -42,5 +44,6 @@
     max-width: calc(100% - 18px);
     flex-grow: 1;
     text-align: left;
+    background-color: inherit;
   }
 }

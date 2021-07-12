@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import classes from './Settings.module.scss';
 import styled from 'styled-components';
 import close from '../../icons/close.svg';
@@ -12,17 +12,17 @@ const CloseButton = styled.button`
   width: 16px;
   height: 16px;
   right: 0;
-  background-image:url(${close});
+  background-image: url(${close});
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   border: none;
   cursor: pointer;
-  transform: translateY(25%) rotate(0) ;
+  transform: translateY(25%) rotate(0);
   transition: all 0.3s ease;
-  
+
   &:hover {
-    transform: translateY(25%) rotate(-90deg) ;
+    transform: translateY(25%) rotate(-90deg);
   }
 `;
 
@@ -31,7 +31,7 @@ const DeleteButton = styled.button`
   height: 18px;
   border: none;
   background-color: inherit;
-  background-image:url(${trash});
+  background-image: url(${trash});
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -41,8 +41,9 @@ const DeleteButton = styled.button`
 
 const Settings = props => {
     const {
-        openSettingsState: { setOpenSettings },
-        lsState: { storedValue, setStoredValue }
+        openSettingsState: {setOpenSettings},
+        lsState: {storedValue, setStoredValue},
+        burgerState: { isBurgerDrag, setBurgerDrag }
     } = useContext(Context);
 
     const closeHandler = () => {
@@ -55,24 +56,68 @@ const Settings = props => {
         setStoredValue(newStoredValue);
     };
 
+    const [currentDrag, setCurrentDrag] = useState(null);
+
+    const burgerDragStartHandler = () => {
+        setBurgerDrag(true);
+    };
+
+    function dragStartHandler(e, card) {
+        console.log('drag', card);
+        setCurrentDrag(card);
+    }
+
+    function dragLeaveHandler(e) {
+        e.target.closest(`.${classes.Settings__city}`).style.backgroundColor = '#d2d2d2';
+
+    }
+
+    function dragEndHandler(e) {
+        setBurgerDrag(null);
+        e.target.closest(`.${classes.Settings__city}`).style.backgroundColor = '#d2d2d2';
+        // e.target.style.borderStyle = 'solid';
+
+    }
+
+    function dragOverHandler(e) {
+        e.preventDefault();
+        e.target.closest(`.${classes.Settings__city}`).style.backgroundColor = 'gray';
+        // e.target.style.borderStyle = 'dashed';
+    }
+
+    function dragDropHandler(e, card) {
+        console.log('drop', card)
+        e.preventDefault();
+    }
+
     return (
         <section className={classes.Settings}>
             <CloseButton onClick={closeHandler}/>
             <h4 className={classes.Settings__title}>Settings</h4>
             {storedValue.map((city, index) => {
                 return (
-                    <div className={classes.Settings__city} key={city.id} draggable="true">
-                        <div className={classes.Settings__burger}>
-                            <span />
-                            <span />
-                            <span />
+                    <div className={classes.Settings__city}
+                         key={city.id}
+                         draggable={!!isBurgerDrag}
+                         onDragStart={(e) => dragStartHandler(e, city)}
+                         onDragLeave={(e) => dragLeaveHandler(e)}
+                         onDragEnd={(e) => dragEndHandler(e)}
+                         onDragOver={(e) => dragOverHandler(e)}
+                         onDrop={(e) => dragDropHandler(e, city)}
+                    >
+                        <div className={classes.Settings__burger}
+                             onMouseDown={burgerDragStartHandler}
+                        >
+                            <span/>
+                            <span/>
+                            <span/>
                         </div>
                         <div className={classes.Settings__cityName}>{city.name}</div>
                         <DeleteButton onClick={() => deleteCity(index)}/>
                     </div>
                 )
             })}
-            <AddLocation />
+            <AddLocation/>
         </section>
     )
 

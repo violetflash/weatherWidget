@@ -12,6 +12,7 @@ import useSearchInputValue from './Components/Hooks/useSearchInputValue/useSearc
 import UseCityId from "./Components/Hooks/useCityID/useCityID";
 import UseOpenSettings from "./Components/Hooks/useOpenSettings/useOpenSettings";
 import Settings from "./Components/Settings/Settings";
+import UseBurgerDrag from '../src/Components/Hooks/useBurgerDrag/useBurgerDrag';
 
 
 
@@ -35,6 +36,7 @@ const App = () => {
     const searchState = useSearchInputValue();
     const cityIDState = UseCityId();
     const openSettingsState = UseOpenSettings();
+    const burgerState = UseBurgerDrag();
 
     const firstOpened = !lsState.storedValue.length ? <AddLocation /> : null;
     const settings = openSettingsState.openSettings && lsState.storedValue.length > 0 ? <Settings /> : null;
@@ -47,7 +49,8 @@ const App = () => {
             searchDropdownState,
             searchState,
             cityIDState,
-            openSettingsState
+            openSettingsState,
+            burgerState
         }}>
             <article className={classes.Widget}>
                 {firstOpened}
