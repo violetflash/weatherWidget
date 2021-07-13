@@ -141,7 +141,7 @@ const AddLocation = props => {
                     <Button className={classes.Button} onClick={btnHandler} disabled={!cityID}/>
                 </form>
             </section> :
-                <Loader/>
+                <Loader text='Loading cities'/>
             }
         </>
     );

@@ -36,34 +36,37 @@
 
   &__text {
     position: absolute;
-    top: 65%;
+    top: 70%;
     left: 0;
     right: 0;
-    width: 4rem;
+    //width: 4rem;
+    font-size: 14px;
+    font-weight: 700;
     margin: auto;
 
     &:after {
-      content: "Loading";
-      font-size: 14px;
-      font-weight: 700;
+      position: absolute;
+      content: "";
+      //top: 0;
+
       animation: loading-text 3s infinite;
     }
 
     @keyframes loading-text {
       0% {
-        content: "Loading"
+        content: ""
       }
 
       25% {
-        content: "Loading."
+        content: "."
       }
 
       50% {
-        content: "Loading.."
+        content: ".."
       }
 
       75% {
-        content: "Loading..."
+        content: "..."
       }
     }
   }

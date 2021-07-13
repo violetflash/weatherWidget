@@ -80,7 +80,7 @@ const WeatherItem = ({ id, lat, lon }) => {
                 </div>
 
             </article> :
-            <Loader/>}
+            <Loader text="Requesting data"/>}
         </>
     )
 
