@@ -76,7 +76,6 @@ const AddLocation = props => {
             id: target.dataset.id,
             lat: target.dataset.lat,
             lon: target.dataset.lon,
-            order: storedValue.length
         });
         setInputValue(target.innerText);
         setDropdownList([]);

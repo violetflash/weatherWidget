@@ -1,0 +1,33 @@
+.dnd {
+  position: relative;
+  display: flex;
+  margin-bottom: 30px;
+  align-items: center;
+  padding: 5px 5px 5px 10px;
+  width: 100%;
+  background-color: #d8d5cd;
+  //border: 1px solid black;
+
+  &__name {
+    padding: 0 15px;
+    max-width: calc(100% - 18px);
+    flex-grow: 1;
+    text-align: left;
+    background-color: inherit;
+  }
+
+  &__plug {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background-color: #fff;
+    //box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    z-index: 50;
+  }
+}
+
+.current {
+  //border-style: dashed;
+  background-color: #fff;
+}
