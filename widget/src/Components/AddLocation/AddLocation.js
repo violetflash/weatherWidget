@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import classes from './AddLocation.module.scss';
 import styled from 'styled-components';
 import icon from '../../icons/enter.svg';
+import eraser from '../../icons/eraser.svg';
 import Context from '../utils/Context';
 import Loader from "../Loader/Loader";
 
@@ -19,6 +20,21 @@ const Button = styled.button`
   cursor: pointer;
   transform: translateY(0);
   transition: all 0.3s ease;
+`;
+
+const Eraser = styled.button`
+  position: absolute;
+  right: 5px;
+  transform: translateY(50%);
+  width: 16px;
+  height: 16px;
+  background-image: url(${eraser});
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
 `;
 
 const AddLocation = props => {
@@ -81,12 +97,18 @@ const AddLocation = props => {
         setDropdownList([]);
     };
 
+    const erase = () => {
+        setInputValue('');
+        setCityID(null);
+    };
+
     return (
         <>
             {fdb ? <section className={classes.Search}>
                 Add location:
                 <form className={classes.Form}>
                     <div className={classes.Wrapper}>
+                        {inputValue && <Eraser onClick={erase}/>}
                         <input
                             className={classes.Input}
                             type="text"
