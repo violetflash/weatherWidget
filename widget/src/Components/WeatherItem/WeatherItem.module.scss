@@ -2,6 +2,10 @@
   margin-bottom: 45px;
   text-align: left;
 
+  &:last-child {
+    margin-bottom: 0;
+  }
+
   &__city {
     //margin-top: 10px;
     //font-family: Abel, sans-serif;
