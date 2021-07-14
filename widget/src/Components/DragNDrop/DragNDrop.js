@@ -54,6 +54,7 @@ const DragNDrop = () => {
 
 
     function dragStartHandler(e, index) {
+
         dragItem.current = index;
         dragNode.current = e.target;
         dragNode.current.addEventListener('dragend', dragEndHandler);
@@ -68,6 +69,7 @@ const DragNDrop = () => {
         dragNode.current.removeEventListener('dragend', dragEndHandler);
         dragNode.current = null;
         setDragging(false);
+        setBurgerDrag(false);
     }
 
     const dragEnterHandle = (e, cityIndex) => {
@@ -95,7 +97,6 @@ const DragNDrop = () => {
             return null;
         }
     };
-
 
     return (
         storedValue.map((city, cityIndex) => {
