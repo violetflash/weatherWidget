@@ -37,16 +37,16 @@ const Eraser = styled.button`
   cursor: pointer;
 `;
 
-const AddLocation = props => {
+const AddLocation = () => {
 
     const {
 
-        lsState: { storedValue, setStoredValue },
+        lsState: {storedValue, setStoredValue},
         fdb,
         searchDropdownState: {dropdownList, setDropdownList},
         searchState: {inputValue, setInputValue},
         cityIDState: {cityID, setCityID},
-        openSettingsState: { setOpenSettings }
+        openSettingsState: {setOpenSettings}
 
     } = useContext(Context);
 
@@ -59,7 +59,13 @@ const AddLocation = props => {
             if (fdb) {
                 fdb.forEach(elem => {
                     if (regExp.test(elem.name.toLowerCase())) {
-                        dropdown.push({city: elem.name, id: elem.id, country: elem.country, lat: elem.coord.lat, lon: elem.coord.lon});
+                        dropdown.push({
+                            city: elem.name,
+                            id: elem.id,
+                            country: elem.country,
+                            lat: elem.coord.lat,
+                            lon: elem.coord.lon
+                        });
                         setDropdownList(dropdown);
                     }
                 });
@@ -84,7 +90,18 @@ const AddLocation = props => {
         setOpenSettings(null);
     };
 
-
+    const dropdownBtnHandler = (e) => {
+        e.preventDefault();
+        const target = e.target.closest(`.${classes.Dropdown__item}`).querySelector('button');
+        setCityID({
+            name: target.innerText,
+            id: target.dataset.id,
+            lat: target.dataset.lat,
+            lon: target.dataset.lon,
+        });
+        setInputValue(target.innerText);
+        setDropdownList([]);
+    };
 
     const erase = () => {
         setInputValue('');
@@ -94,42 +111,42 @@ const AddLocation = props => {
     return (
         <React.Fragment>
             {fdb ? <section className={classes.Search}>
-                Add location:
-                <form className={classes.Form}>
-                    <div className={classes.Wrapper}>
-                        {inputValue && <Eraser onClick={erase}/>}
-                        <input
-                            className={classes.Input}
-                            type="text"
-                            onChange={inputHandler}
-                            value={inputValue}
-                        />
-                        <ul className={classes.Dropdown}>
-                            {dropdownList.length < 100 && dropdownList.map((item, index) => {
-                                return (
-                                    <li
-                                        className={classes.Dropdown__item}
-                                        key={item.id}
-                                        onClick={dropdownBtnHandler}
-                                    >
-                                        <button
-                                            className={classes.Dropdown__btn}
-                                            data-id={item.id}
-                                            data-lat={item.lat}
-                                            data-lon={item.lon}
+                    Add location:
+                    <form className={classes.Form}>
+                        <div className={classes.Wrapper}>
+                            {inputValue && <Eraser onClick={erase}/>}
+                            <input
+                                className={classes.Input}
+                                type="text"
+                                onChange={inputHandler}
+                                value={inputValue}
+                            />
+                            <ul className={classes.Dropdown}>
+                                {dropdownList.length < 100 && dropdownList.map((item, index) => {
+                                    return (
+                                        <li
+                                            className={classes.Dropdown__item}
+                                            key={item.id}
+                                            onClick={dropdownBtnHandler}
                                         >
-                                            {item.city}, {item.country}
-                                        </button>
-                                    </li>
-                                )
-                            })}
+                                            <button
+                                                className={classes.Dropdown__btn}
+                                                data-id={item.id}
+                                                data-lat={item.lat}
+                                                data-lon={item.lon}
+                                            >
+                                                {item.city}, {item.country}
+                                            </button>
+                                        </li>
+                                    )
+                                })}
 
 
-                        </ul>
-                    </div>
-                    <Button className={classes.Button} onClick={btnHandler} disabled={!cityID}/>
-                </form>
-            </section> :
+                            </ul>
+                        </div>
+                        <Button className={classes.Button} onClick={btnHandler} disabled={!cityID}/>
+                    </form>
+                </section> :
                 <Loader text='Loading cities'/>
             }
         </React.Fragment>
