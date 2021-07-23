@@ -84,18 +84,7 @@ const AddLocation = props => {
         setOpenSettings(null);
     };
 
-    const dropdownBtnHandler = (e) => {
-        e.preventDefault();
-        const target = e.target.closest(`.${classes.Dropdown__item}`).querySelector('button');
-        setCityID({
-            name: target.innerText,
-            id: target.dataset.id,
-            lat: target.dataset.lat,
-            lon: target.dataset.lon,
-        });
-        setInputValue(target.innerText);
-        setDropdownList([]);
-    };
+
 
     const erase = () => {
         setInputValue('');
@@ -103,7 +92,7 @@ const AddLocation = props => {
     };
 
     return (
-        <>
+        <React.Fragment>
             {fdb ? <section className={classes.Search}>
                 Add location:
                 <form className={classes.Form}>
@@ -143,7 +132,7 @@ const AddLocation = props => {
             </section> :
                 <Loader text='Loading cities'/>
             }
-        </>
+        </React.Fragment>
     );
 
 };
